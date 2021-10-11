@@ -1318,9 +1318,13 @@ sub tab_action {
 			$root->make_current($tab->index - 1);
 		}
 	} elsif ($cmd eq 'move_tab_left') {
-		$root->move_tab($tab, -1);
+		if ($tab->index > 0 or $root->{wrap}) {
+			$root->move_tab($tab, -1);
+		}
 	} elsif ($cmd eq 'move_tab_right') {
-		$root->move_tab($tab, 1);
+		if ($tab->index + 1  < @{ $root->{tabs} } or $root->{wrap}) {
+			$root->move_tab($tab, 1);
+		}
 	} elsif ($cmd =~ /^goto_tab[_:](-?)(0*[1-9]\d*)$/) {
 		if ($2 <= @{ $root->{tabs} }) {
 			$root->make_current($1 eq '' ? $2 - 1 : -$2);
